@@ -8,6 +8,7 @@ const fetch = require('node-fetch');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
+// // Sign up without email confirmation
 // exports.signup = (req, res) => {
 //     // console.log('REQ BODY ON SIGNUP', req.body);
 //     const { name, email, password } = req.body;
@@ -35,6 +36,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 //     });
 // };
 
+// Sign up with email confirmation
 exports.signup = (req, res) => {
     const { name, email, password } = req.body;
 
@@ -44,7 +46,7 @@ exports.signup = (req, res) => {
                 error: 'Email is taken'
             });
         }
-
+        // jwt.sign(params, JWT Secret, options including expiration);
         const token = jwt.sign({ name, email, password }, process.env.JWT_ACCOUNT_ACTIVATION, { expiresIn: '10m' });
 
         const emailData = {
