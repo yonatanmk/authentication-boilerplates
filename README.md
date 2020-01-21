@@ -5,6 +5,6 @@ https://www.udemy.com/course/node-react/
  - react-frontend-authentication-wip
 
 https://www.udemy.com/course/mern-stack/
- - mern-auth-api
- - mern-auth-bundle
- - mern-auth-client
+ - mern-auth-api - backend
+ - mern-auth-bundle - notes for building steps
+ - mern-auth-client - frontend
