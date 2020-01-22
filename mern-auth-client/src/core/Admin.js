@@ -24,7 +24,7 @@ const Admin = ({ history }) => {
     const loadProfile = () => {
         axios({
             method: 'GET',
-            url: `${process.env.REACT_APP_API}/user/${isAuth()._id}`,
+            url: `${process.env.REACT_APP_API}/user`,
             headers: {
                 Authorization: `Bearer ${token}`
             }
