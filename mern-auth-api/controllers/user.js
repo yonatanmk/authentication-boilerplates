@@ -1,7 +1,8 @@
 const User = require('../models/user');
 
 exports.read = (req, res) => {
-    const userId = req.params.id;
+    // const userId = req.params.id;
+    const userId = req.user._id;
     User.findById(userId).exec((err, user) => {
         if (err || !user) {
             return res.status(400).json({
