@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
 import Layout from '../core/Layout';
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
@@ -22,7 +21,7 @@ const Activate = ({ match }) => {
         }
     }, []);
 
-    const { name, token, show } = values;
+    const { name, token } = values;
 
     const clickSubmit = event => {
         event.preventDefault();
