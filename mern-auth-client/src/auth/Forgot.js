@@ -7,7 +7,8 @@ import 'react-toastify/dist/ReactToastify.min.css';
 const Forgot = ({ history }) => {
     const [values, setValues] = useState({
         email: '',
-        buttonText: 'Request password reset link'
+        buttonText: 'Request password reset link',
+        success: false,
     });
 
     const { email, buttonText } = values;
@@ -19,22 +20,26 @@ const Forgot = ({ history }) => {
 
     const clickSubmit = event => {
         event.preventDefault();
-        setValues({ ...values, buttonText: 'Submitting' });
-        axios({
-            method: 'PUT',
-            url: `${process.env.REACT_APP_API}/forgot-password`,
-            data: { email }
-        })
-            .then(response => {
-                console.log('FORGOT PASSWORD SUCCESS', response);
-                toast.success(response.data.message);
-                setValues({ ...values, buttonText: 'Requested' });
+        if (values.success) {
+            history.push('/signin')
+        } else {
+            setValues({ ...values, buttonText: 'Submitting' });
+            axios({
+                method: 'PUT',
+                url: `${process.env.REACT_APP_API}/forgot-password`,
+                data: { email }
             })
-            .catch(error => {
-                console.log('FORGOT PASSWORD ERROR', error.response.data);
-                toast.error(error.response.data.error);
-                setValues({ ...values, buttonText: 'Request password reset link' });
-            });
+                .then(response => {
+                    console.log('FORGOT PASSWORD SUCCESS', response);
+                    toast.success(response.data.message);
+                    setValues({ ...values, buttonText: 'Requested', success: true });
+                })
+                .catch(error => {
+                    console.log('FORGOT PASSWORD ERROR', error.response.data);
+                    toast.error(error.response.data.error);
+                    setValues({ ...values, buttonText: 'Request password reset link' });
+                });
+        }
     };
 
     const passwordForgotForm = () => (

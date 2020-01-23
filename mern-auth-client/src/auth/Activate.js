@@ -8,27 +8,27 @@ import 'react-toastify/dist/ReactToastify.min.css';
 const Activate = ({ match }) => {
     const [values, setValues] = useState({
         name: '',
-        token: '',
+        activateToken: '',
         show: true
     });
 
     useEffect(() => {
-        let token = match.params.token;
-        let { name } = jwt.decode(token);
-        // console.log(token);
-        if (token) {
-            setValues({ ...values, name, token });
+        const activateToken = match.params.activateToken;
+        const decodedToken = jwt.decode(activateToken);
+        if (activateToken && decodedToken) {
+            const { name } = decodedToken;
+            setValues({ ...values, name, activateToken });
         }
-    }, []);
+    }, [match]);
 
-    const { name, token } = values;
+    const { name, activateToken } = values;
 
     const clickSubmit = event => {
         event.preventDefault();
         axios({
             method: 'POST',
             url: `${process.env.REACT_APP_API}/account-activation`,
-            data: { token }
+            data: { token: activateToken }
         })
             .then(response => {
                 console.log('ACCOUNT ACTIVATION', response);
@@ -54,7 +54,8 @@ const Activate = ({ match }) => {
         <Layout>
             <div className="col-md-6 offset-md-3">
                 <ToastContainer />
-                {activationLink()}
+                {!name && <h1 className="p-5 text-center">Account Activation Failed</h1>}
+                {name && activationLink()}
             </div>
         </Layout>
     );

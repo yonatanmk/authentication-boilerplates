@@ -5,11 +5,12 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
-const Reset = ({ match }) => {
+const Reset = ({ history, match }) => {
     // props.match from react router dom
     const [values, setValues] = useState({
         name: '',
         resetPasswordToken: '',
+        resetSuccess: false,
         newPassword: '',
         buttonText: 'Reset password'
     });
@@ -17,20 +18,15 @@ const Reset = ({ match }) => {
     useEffect(() => {
         const resetPasswordToken = match.params.resetPasswordToken;
         const decodedToken = jwt.decode(resetPasswordToken);
-        console.log(resetPasswordToken)
-        console.log(decodedToken)
         if (resetPasswordToken && decodedToken) {
             const { name } = decodedToken;
-            console.log(name)
-            console.log(resetPasswordToken)
-            console.log(decodedToken)
             setValues({ ...values, name, resetPasswordToken });
         }
         // let { name } = jwt.decode(resetPasswordToken);
         // if (resetPasswordToken) {
         //     setValues({ ...values, name, resetPasswordToken });
         // }
-    }, []);
+    }, [match]);
 
     const { name, resetPasswordToken, newPassword, buttonText } = values;
 
@@ -40,22 +36,26 @@ const Reset = ({ match }) => {
 
     const clickSubmit = event => {
         event.preventDefault();
-        setValues({ ...values, buttonText: 'Submitting' });
-        axios({
-            method: 'PUT',
-            url: `${process.env.REACT_APP_API}/reset-password`,
-            data: { newPassword, resetPasswordLink: resetPasswordToken }
-        })
-            .then(response => {
-                console.log('RESET PASSWORD SUCCESS', response);
-                toast.success(response.data.message);
-                setValues({ ...values, buttonText: 'Done' });
+        if (values.resetSuccess) {
+            history.push('/signin')
+        } else {
+            setValues({ ...values, buttonText: 'Submitting' });
+            axios({
+                method: 'PUT',
+                url: `${process.env.REACT_APP_API}/reset-password`,
+                data: { newPassword, resetPasswordLink: resetPasswordToken }
             })
-            .catch(error => {
-                console.log('RESET PASSWORD ERROR', error.response.data);
-                toast.error(error.response.data.error);
-                setValues({ ...values, buttonText: 'Reset password' });
-            });
+                .then(response => {
+                    console.log('RESET PASSWORD SUCCESS', response);
+                    toast.success(response.data.message);
+                    setValues({ ...values, buttonText: 'Done', resetSuccess: true });
+                })
+                .catch(error => {
+                    console.log('RESET PASSWORD ERROR', error.response.data);
+                    toast.error(error.response.data.error);
+                    setValues({ ...values, buttonText: 'Reset password' });
+                });
+        }
     };
 
     const passwordResetForm = () => (
