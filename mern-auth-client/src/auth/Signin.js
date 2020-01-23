@@ -77,9 +77,9 @@ const Signin = ({ history }) => {
             <div className="col-md-6 offset-md-3">
                 <ToastContainer />
                 {isAuth() ? <Redirect to="/" /> : null}
-                <h1 className="p-5 text-center">Signin</h1>
-                <Google informParent={informParent} />
-                <Facebook informParent={informParent} />
+                <h1 className="p-5 text-center">Sign In</h1>
+                <Google text="Login with Google" informParent={informParent} />
+                <Facebook text="Login with Facebook" informParent={informParent} />
                 {signinForm()}
                 <br />
                 <Link to="/auth/password/forgot" className="btn btn-sm btn-outline-danger">

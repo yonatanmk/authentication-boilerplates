@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import Layout from '../core/Layout';
 import axios from 'axios';
-import { isAuth } from './helpers';
+import { authenticate, isAuth } from './helpers';
 import { ToastContainer, toast } from 'react-toastify';
+import Google from './Google';
+import Facebook from './Facebook';
 import 'react-toastify/dist/ReactToastify.min.css';
 
-const Signup = () => {
+const Signup = ({ history }) => {
     const [values, setValues] = useState({
         name: '',
         email: '',
@@ -19,6 +21,12 @@ const Signup = () => {
     const handleChange = name => event => {
         // console.log(event.target.value);
         setValues({ ...values, [name]: event.target.value });
+    };
+
+    const informParent = response => {
+        authenticate(response, () => {
+            isAuth() && isAuth().role === 'admin' ? history.push('/admin') : history.push('/private');
+        });
     };
 
     const clickSubmit = event => {
@@ -71,7 +79,9 @@ const Signup = () => {
             <div className="col-md-6 offset-md-3">
                 <ToastContainer />
                 {isAuth() ? <Redirect to="/" /> : null}
-                <h1 className="p-5 text-center">Signup</h1>
+                <h1 className="p-5 text-center">Sign Up</h1>
+                <Google text="Sign Up with Google" informParent={informParent} />
+                <Facebook text="Sign Up with Facebook" informParent={informParent} />
                 {signupForm()}
                 <br />
                 <Link to="/auth/password/forgot" className="btn btn-sm btn-outline-danger">
