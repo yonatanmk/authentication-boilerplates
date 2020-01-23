@@ -26,6 +26,8 @@ const Reset = ({ history, match }) => {
         // if (resetPasswordToken) {
         //     setValues({ ...values, name, resetPasswordToken });
         // }
+
+        // eslint-disable-next-line
     }, [match]);
 
     const { name, resetPasswordToken, newPassword, buttonText } = values;

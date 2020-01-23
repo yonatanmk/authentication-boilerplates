@@ -18,6 +18,7 @@ const Private = ({ history }) => {
 
     useEffect(() => {
         loadProfile();
+        // eslint-disable-next-line
     }, []);
 
     const loadProfile = () => {

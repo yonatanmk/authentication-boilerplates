@@ -19,7 +19,8 @@ const Activate = ({ match }) => {
             const { name } = decodedToken;
             setValues({ ...values, name, activateToken });
         }
-    }, [match]);
+        // eslint-disable-next-line
+    }, [match]); 
 
     const { name, activateToken } = values;
 
