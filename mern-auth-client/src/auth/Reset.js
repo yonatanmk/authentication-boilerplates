@@ -9,21 +9,30 @@ const Reset = ({ match }) => {
     // props.match from react router dom
     const [values, setValues] = useState({
         name: '',
-        token: '',
+        resetPasswordToken: '',
         newPassword: '',
         buttonText: 'Reset password'
     });
 
     useEffect(() => {
-        let token = match.params.token;
-        let { name } = jwt.decode(token);
-        // console.log(name);
-        if (token) {
-            setValues({ ...values, name, token });
+        const resetPasswordToken = match.params.resetPasswordToken;
+        const decodedToken = jwt.decode(resetPasswordToken);
+        console.log(resetPasswordToken)
+        console.log(decodedToken)
+        if (resetPasswordToken && decodedToken) {
+            const { name } = decodedToken;
+            console.log(name)
+            console.log(resetPasswordToken)
+            console.log(decodedToken)
+            setValues({ ...values, name, resetPasswordToken });
         }
+        // let { name } = jwt.decode(resetPasswordToken);
+        // if (resetPasswordToken) {
+        //     setValues({ ...values, name, resetPasswordToken });
+        // }
     }, []);
 
-    const { name, token, newPassword, buttonText } = values;
+    const { name, resetPasswordToken, newPassword, buttonText } = values;
 
     const handleChange = event => {
         setValues({ ...values, newPassword: event.target.value });
@@ -35,7 +44,7 @@ const Reset = ({ match }) => {
         axios({
             method: 'PUT',
             url: `${process.env.REACT_APP_API}/reset-password`,
-            data: { newPassword, resetPasswordLink: token }
+            data: { newPassword, resetPasswordLink: resetPasswordToken }
         })
             .then(response => {
                 console.log('RESET PASSWORD SUCCESS', response);

@@ -22,7 +22,7 @@ const Routes = () => {
                 <PrivateRoute path="/private" exact component={Private} />
                 <AdminRoute path="/admin" exact component={Admin} />
                 <Route path="/auth/password/forgot" exact component={Forgot} />
-                <Route path="/auth/password/reset/:token" exact component={Reset} />
+                <Route path="/auth/password/reset/:resetPasswordToken" exact component={Reset} />
             </Switch>
         </BrowserRouter>
     );
