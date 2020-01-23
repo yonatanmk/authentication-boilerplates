@@ -84,8 +84,9 @@ const Reset = ({ match }) => {
         <Layout>
             <div className="col-md-6 offset-md-3">
                 <ToastContainer />
-                <h1 className="p-5 text-center">Hey {name}, Type your new password</h1>
-                {passwordResetForm()}
+                {!name && <h1 className="p-5 text-center">Pasword Reset Failed</h1>}
+                {name && <h1 className="p-5 text-center">Hey {name}, Type your new password</h1>}
+                {name && passwordResetForm()}
             </div>
         </Layout>
     );
