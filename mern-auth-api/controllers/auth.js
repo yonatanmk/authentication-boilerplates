@@ -310,7 +310,6 @@ exports.facebookLogin = (req, res) => {
             method: 'GET'
         })
             .then(response => response.json())
-            // .then(response => console.log(response))
             .then(response => {
                 const { email, name } = response;
                 User.findOne({ email }).exec((err, user) => {

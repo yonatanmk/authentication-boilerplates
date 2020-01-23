@@ -18,6 +18,7 @@ const Google = ({ text, informParent = f => f }) => {
                 console.log('GOOGLE SIGNIN ERROR', error.response);
             });
     };
+    
     return (
         <div className="pb-3">
             <GoogleLogin

@@ -1,5 +1,6 @@
 import React from 'react';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'; // special import for styling facebook button
+// import FacebookLogin from 'react-facebook-login'; import for default facebook sign in button styles
 import axios from 'axios';
 
 const Facebook = ({ text, informParent = f => f }) => {
@@ -19,6 +20,7 @@ const Facebook = ({ text, informParent = f => f }) => {
                 console.log('FACEBOOK SIGNIN ERROR', error.response);
             });
     };
+
     return (
         <div className="pb-3">
             <FacebookLogin
