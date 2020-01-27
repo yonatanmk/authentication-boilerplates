@@ -36,15 +36,6 @@ const App = observer( class App extends Component {
 
     render () {
         const { sampleStore: { counter } } = this.props;
-        // const head = () => (
-        //     <Helmet>
-        //         <meta charSet="utf-8" />
-        //         <title>MERN Stack</title>
-        //         <link rel="canonical" href="https://mern-stack.com" />
-        //     </Helmet>
-        // );
-        
-
         return (
             <Layout>
                 {this.head}
