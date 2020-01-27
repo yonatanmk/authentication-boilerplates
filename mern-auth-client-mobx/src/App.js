@@ -53,8 +53,6 @@ const App = observer( class App extends Component {
     }
 });
 
-// export default App;
-
 export default
 inject('sampleStore')(App);
 
