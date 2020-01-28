@@ -82,7 +82,7 @@ export const isAuth = () => {
 
 export const signout = next => {
     removeLocalStorage('token');
-    next();
+    if (next) next();
 };
 
 export const updateUser = (response, next) => {

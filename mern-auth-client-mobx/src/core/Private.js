@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { observer, inject } from 'mobx-react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Layout from 'core/Layout';
-import { getCookie, signout, updateUser } from 'auth/helpers';
+import { updateUser } from 'auth/helpers';
+import request from 'lib/request';
 
-const Private = ({ history }) => {
+const Private = observer(({ userStore: { user }, history }) => {
     const [values, setValues] = useState({
         role: '',
         name: '',
@@ -14,37 +15,13 @@ const Private = ({ history }) => {
         buttonText: 'Submit'
     });
 
-    const token = localStorage.getItem('token');
-
     useEffect(() => {
-        loadProfile();
+        if (user) {
+            const { role, name, email } = user;
+            setValues({ ...values, role, name, email });
+        }
         // eslint-disable-next-line
     }, []);
-
-    const loadProfile = () => {
-        console.log('load profile')
-        axios({
-            method: 'GET',
-            url: `${process.env.REACT_APP_API}/user`,
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-            .then(response => {
-                console.log('PRIVATE PROFILE UPDATE', response);
-                const { role, name, email } = response.data;
-                setValues({ ...values, role, name, email });
-            })
-            .catch(error => {
-                console.log('PRIVATE PROFILE UPDATE ERROR', error.response.data.error);
-                debugger;
-                if (error.response.status === 401) {
-                    signout(() => {
-                        history.push('/');
-                    });
-                }
-            });
-    };
 
     const { role, name, email, password, buttonText } = values;
 
@@ -56,12 +33,9 @@ const Private = ({ history }) => {
     const clickSubmit = event => {
         event.preventDefault();
         setValues({ ...values, buttonText: 'Submitting' });
-        axios({
+        request({
             method: 'PUT',
             url: `${process.env.REACT_APP_API}/user/update`,
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
             data: { name, password }
         })
             .then(response => {
@@ -117,6 +91,6 @@ const Private = ({ history }) => {
             </div>
         </Layout>
     );
-};
+});
 
-export default Private;
+export default inject('userStore')(Private);

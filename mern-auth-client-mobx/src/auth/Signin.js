@@ -36,9 +36,6 @@ const Signin = observer(({ history, userStore: { user, signIn } }) => {
             const user = await signIn({ email, password })
             
             if (user) {
-                console.log('USER')
-                console.log({ user })
-                console.log(isAuth())
                 setValues({ ...values, name: '', email: '', password: '', buttonText: 'Submitted' });
                 isAuth() && user.role === 'admin' ? history.push('/admin') : history.push('/private');
             }
