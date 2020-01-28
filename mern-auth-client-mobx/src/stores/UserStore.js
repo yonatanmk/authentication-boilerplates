@@ -19,32 +19,29 @@ class UserStore {
   async signIn(data) {
     const { email, password } = data;
     console.log({ email, password })
-    let resp;
     try {
-      resp = await axios({
+      const resp = await axios({
         method: 'POST',
         url: `${process.env.REACT_APP_API}/signin`,
         data: { email, password }
       })
-    } catch (e) {
-      console.error('CALL FAILED')
-      console.error(e)
-      resp = e.response
-    }
 
-    const token = _.get(resp, 'data.token');
-    const user = _.get(resp, 'data.user');
-    
-    if (token && user) {
-      console.log('SIGNIN SUCCESS', resp);
-      setLocalStorage('token', token);
-      this.token = token;
-      this.user = user;
-      return user;
-    } else {
-      console.log({ resp })
-      const error = _.get(resp, 'data.error');
-      throw new Error(error || 'Something Went Wrong');
+      const token = _.get(resp, 'data.token');
+      const user = _.get(resp, 'data.user');
+
+      if (token && user) {
+        console.log('SIGNIN SUCCESS', resp);
+        setLocalStorage('token', token);
+        this.token = token;
+        this.user = user;
+        return user;
+      } else {
+        throw new Error('Something Went Wrong'); // redundant message
+      }
+    } catch (e) {
+      console.error(e)
+      const errorMessage = _.get(e, 'response.data.error') || 'Something Went Wrong';
+      throw new Error(errorMessage);
     }
   }
 
