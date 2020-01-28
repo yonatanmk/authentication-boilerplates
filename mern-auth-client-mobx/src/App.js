@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import Layout from 'core/Layout';
 
-const App = observer( class App extends Component {
+const App = observer(class App extends Component {
     constructor (props) {
         super(props);
         this.state = {
