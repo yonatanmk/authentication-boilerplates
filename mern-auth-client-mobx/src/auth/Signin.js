@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import Layout from '../core/Layout';
 import axios from 'axios';
-import { authenticate, isAuth } from './helpers';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+import Layout from 'core/Layout';
+import { authenticate, isAuth } from './helpers';
 import Google from './Google';
 import Facebook from './Facebook';
-import 'react-toastify/dist/ReactToastify.min.css';
 
 const Signin = ({ history }) => {
     const [values, setValues] = useState({

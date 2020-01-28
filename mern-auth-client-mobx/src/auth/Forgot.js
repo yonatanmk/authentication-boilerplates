@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Layout from '../core/Layout';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import Layout from 'core/Layout';
 
 const Forgot = ({ history }) => {
     const [values, setValues] = useState({

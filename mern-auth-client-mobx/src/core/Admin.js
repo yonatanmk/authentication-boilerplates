@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Layout from '../core/Layout';
 import axios from 'axios';
-import { getCookie, signout, updateUser } from '../auth/helpers';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import Layout from 'core/Layout';
+import { getCookie, signout, updateUser } from 'auth/helpers';
+
 
 const Admin = ({ history }) => {
     const [values, setValues] = useState({
