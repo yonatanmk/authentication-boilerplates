@@ -21,6 +21,7 @@ const Facebook = ({ text, informParent = f => f }) => {
             });
     };
 
+    // facebook component causing componentWillReceiveProps has been renamed error
     return (
         <div className="pb-3">
             <FacebookLogin
