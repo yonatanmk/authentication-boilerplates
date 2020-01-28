@@ -94,7 +94,7 @@ const Private = ({ history }) => {
 
             <div className="form-group">
                 <label className="text-muted">Password</label>
-                <input onChange={handleChange('password')} value={password} type="password" className="form-control" />
+                <input onChange={handleChange('password')} value={password} type="password" className="form-control" autoComplete="off"/>
             </div>
 
             <div>
