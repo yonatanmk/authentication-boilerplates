@@ -14,7 +14,7 @@ const Private = ({ history }) => {
         buttonText: 'Submit'
     });
 
-    const token = getCookie('token');
+    const token = localStorage.getItem('token');
 
     useEffect(() => {
         loadProfile();
@@ -22,6 +22,7 @@ const Private = ({ history }) => {
     }, []);
 
     const loadProfile = () => {
+        console.log('load profile')
         axios({
             method: 'GET',
             url: `${process.env.REACT_APP_API}/user`,
@@ -36,6 +37,7 @@ const Private = ({ history }) => {
             })
             .catch(error => {
                 console.log('PRIVATE PROFILE UPDATE ERROR', error.response.data.error);
+                debugger;
                 if (error.response.status === 401) {
                     signout(() => {
                         history.push('/');

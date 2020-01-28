@@ -1,13 +1,13 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 import { Route, Redirect } from 'react-router-dom';
-// import { isAuth } from './helpers';
+import { isAuth } from './helpers';
 
-const PrivateRoute = observer(({ component: Component, userStore: { isAuth }, ...rest }) => (
+const PrivateRoute = observer(({ component: Component, ...rest }) => (
     <Route
         {...rest}
         render={props =>
-            isAuth ? (
+            isAuth() ? (
                 <Component {...props} />
             ) : (
                 <Redirect

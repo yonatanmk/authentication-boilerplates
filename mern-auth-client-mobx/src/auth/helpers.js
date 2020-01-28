@@ -28,18 +28,19 @@ export const getCookie = key => {
 
 // set in localstorage
 export const setLocalStorage = (key, value) => {
+    const isObject = typeof value === 'object' && value !== null
     if (window !== 'undefined') {
-        localStorage.setItem(key, JSON.stringify(value));
+        localStorage.setItem(key, isObject ? JSON.stringify(value) : value);
     }
 };
 
-export const getLocalStorage = (key) => {
-    if (window !== 'undefined') {
-        localStorage.getItem(key)
-    } else {
-        return null
-    }
-};
+// export const getLocalStorage = (key) => {
+//     if (window !== 'undefined') {
+//         localStorage.getItem(key)
+//     } else {
+//         return null
+//     }
+// };
 
 // remove from localstorage
 export const removeLocalStorage = key => {
@@ -59,11 +60,13 @@ export const authenticate = (response, next) => {
 // access user info from localstorage
 export const isAuth = () => {
     if (window !== 'undefined') {
-        const cookieChecked = getCookie('token');
-        const userJSON = localStorage.getItem('user');
-        return cookieChecked && userJSON ? JSON.parse(userJSON) : false;
+        const token = localStorage.getItem('token');
+        return !!token
+    } else {
+        return false;
     }
 };
+
 // export const isAuth = () => {
 //     if (window !== 'undefined') {
 //         const cookieChecked = getCookie('token');
@@ -78,8 +81,7 @@ export const isAuth = () => {
 // };
 
 export const signout = next => {
-    removeCookie('token');
-    removeLocalStorage('user');
+    removeLocalStorage('token');
     next();
 };
 

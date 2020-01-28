@@ -4,16 +4,31 @@ import axios from 'axios';
 import { authenticate, isAuth, setLocalStorage, getLocalStorage } from 'auth/helpers';
 
 class UserStore {
-  user = {}
-  token = {}
+  user = null
+  token = null // not used
 
-  get isAuth() {
-    const token = getLocalStorage('token');
-    if (token && this.user) {
-      return this.user;
-    } else {
-      return false;
+  // get isAuth() {
+  //   console.log('isAuth')
+  //   const token = getLocalStorage('token');
+  //   console.log({ token })
+  //   if (this.user) {
+  //     return this.user;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+
+  checkAuth () { // place in Private Route component
+    const token = localStorage.getItem('token');
+
+    if (token && !this.token) {
+      this.token = token
     }
+
+    if (token && !this.user) {
+      // fetch user data, see Private component
+    }
+
   }
 
   async signIn(data) {
@@ -44,35 +59,13 @@ class UserStore {
       throw new Error(errorMessage);
     }
   }
-
-
-//   axios({
-//     method: 'POST',
-//     url: `${process.env.REACT_APP_API}/signin`,
-//     data: { email, password }
-// })
-//     .then(response => {
-//         console.log('SIGNIN SUCCESS', response);
-//         // save the response (user, token) localstorage/cookie
-//         authenticate(response, () => {
-//             setValues({ ...values, name: '', email: '', password: '', buttonText: 'Submitted' });
-//             // toast.success(`Hey ${response.data.user.name}, Welcome back!`);
-//             isAuth() && isAuth().role === 'admin' ? history.push('/admin') : history.push('/private');
-//         });
-//     })
-//     .catch(error => {
-//         console.log('SIGNIN ERROR', error.response.data);
-//         setValues({ ...values, buttonText: 'Submit' });
-//         toast.error(error.response.data.error);
-//     });
 }
 
 decorate(UserStore, {
   user: observable,
   token: observable,
-  isAuth: computed,
+  // isAuth: computed,
   signIn: action.bound,
-  
 });
 
 export default UserStore;

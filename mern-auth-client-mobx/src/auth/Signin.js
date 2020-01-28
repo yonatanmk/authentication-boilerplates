@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { observer, inject } from 'mobx-react';
-import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Layout from 'core/Layout';
-import { authenticate } from './helpers';
+import { authenticate, isAuth } from './helpers';
 import Google from './Google';
 import Facebook from './Facebook';
 
-const Signin = observer(({ history, userStore: { signIn, isAuth } }) => {
+const Signin = observer(({ history, userStore: { user, signIn } }) => {
     const [values, setValues] = useState({
         email: '',
         password: '',
@@ -25,7 +24,7 @@ const Signin = observer(({ history, userStore: { signIn, isAuth } }) => {
 
     const informParent = response => {
         authenticate(response, () => {
-            isAuth && isAuth.role === 'admin' ? history.push('/admin') : history.push('/private');
+            isAuth() && isAuth().role === 'admin' ? history.push('/admin') : history.push('/private'); // FIX
         });
     };
 
@@ -35,9 +34,13 @@ const Signin = observer(({ history, userStore: { signIn, isAuth } }) => {
 
         try {
             const user = await signIn({ email, password })
+            
             if (user) {
+                console.log('USER')
+                console.log({ user })
+                console.log(isAuth())
                 setValues({ ...values, name: '', email: '', password: '', buttonText: 'Submitted' });
-                isAuth && isAuth.role === 'admin' ? history.push('/admin') : history.push('/private');
+                isAuth() && user.role === 'admin' ? history.push('/admin') : history.push('/private');
             }
         } catch(err) {
             const { message } = err;
@@ -45,28 +48,6 @@ const Signin = observer(({ history, userStore: { signIn, isAuth } }) => {
             setValues({ ...values, buttonText: 'Submit' });
             toast.error(message);
         }
-
-        // console.log({ email, password })
-        
-        // axios({
-        //     method: 'POST',
-        //     url: `${process.env.REACT_APP_API}/signin`,
-        //     data: { email, password }
-        // })
-        //     .then(response => {
-        //         console.log('SIGNIN SUCCESS', response);
-        //         // save the response (user, token) localstorage/cookie
-        //         authenticate(response, () => {
-        //             setValues({ ...values, name: '', email: '', password: '', buttonText: 'Submitted' });
-        //             // toast.success(`Hey ${response.data.user.name}, Welcome back!`);
-        //             isAuth() && isAuth().role === 'admin' ? history.push('/admin') : history.push('/private');
-        //         });
-        //     })
-        //     .catch(error => {
-        //         console.log('SIGNIN ERROR', error.response.data);
-        //         setValues({ ...values, buttonText: 'Submit' });
-        //         toast.error(error.response.data.error);
-        //     });
     };
 
     const signinForm = () => (
@@ -93,7 +74,7 @@ const Signin = observer(({ history, userStore: { signIn, isAuth } }) => {
         <Layout>
             <div className="col-md-6 offset-md-3">
                 <ToastContainer />
-                {isAuth ? <Redirect to="/" /> : null}
+                {isAuth() && user ? <Redirect to="/" /> : null}
                 <h1 className="p-5 text-center">Sign In</h1>
                 <Google text="Login with Google" informParent={informParent} />
                 <Facebook text="Login with Facebook" informParent={informParent} />
