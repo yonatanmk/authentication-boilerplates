@@ -2,7 +2,8 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Provider } from 'mobx-react';
 import stores from 'stores';
-import App from 'App';
+import LandingPage from 'layouts/LandingPage';
+import Home from 'layouts/Home';
 import Signup from 'auth/Signup';
 import Signin from 'auth/Signin';
 import Activate from 'auth/Activate';
@@ -14,12 +15,12 @@ import Forgot from 'auth/Forgot';
 import Reset from 'auth/Reset';
 
 const Routes = () => {
-    
     return (
         <Provider {...stores}>
             <BrowserRouter>
                 <Switch>
-                    <Route path="/" exact component={App} />
+                    <Route path="/" exact component={LandingPage} />
+                    <PrivateRoute path="/home" exact component={Home} />
                     <Route path="/signup" exact component={Signup} />
                     <Route path="/signin" exact component={Signin} />
                     <Route path="/auth/activate/:activateToken" exact component={Activate} />

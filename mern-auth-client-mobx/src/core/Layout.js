@@ -15,11 +15,21 @@ const Layout = observer(({ children, match, history, userStore, userStore: { use
 
     const nav = () => (
         <ul className="nav nav-tabs bg-primary">
-            <li className="nav-item">
-                <Link to="/" className="nav-link" style={isActive('/')}>
-                    Home
-                </Link>
-            </li>
+            {!isAuth() && (
+                <li className="nav-item">
+                    <Link to="/" className="nav-link" style={isActive('/')}>
+                        Home
+                    </Link>
+                </li>
+            )}
+
+            {isAuth() && (
+                <li className="nav-item">
+                    <Link to="/home" className="nav-link" style={isActive('/home')}>
+                        Home
+                    </Link>
+                </li>
+            )}
 
             {!isAuth() && (
                 <Fragment>
