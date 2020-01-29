@@ -4,7 +4,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { isAuth, signout } from 'lib/helpers';
 
-const Layout = observer(({ children, match, history, userStore, userStore: { user } }) => {
+const Layout = observer(({ children, match, history, userStore, userStore: { user, signOut } }) => {
     const isActive = path => {
         if (match.path === path) {
             return { color: '#000' };
@@ -68,7 +68,7 @@ const Layout = observer(({ children, match, history, userStore, userStore: { use
                         className="nav-link"
                         style={{ cursor: 'pointer', color: '#fff' }}
                         onClick={() => {
-                            signout(() => {
+                            signOut(() => {
                                 history.push('/');
                             });
                         }}

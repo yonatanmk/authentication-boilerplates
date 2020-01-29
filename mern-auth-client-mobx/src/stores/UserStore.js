@@ -56,6 +56,11 @@ class UserStore {
     }
   }
 
+  signOut(cb) {
+    this.user = null;
+    signout(cb)
+  }
+
   async getUser() {
     try {
       const resp = await request({
@@ -83,6 +88,7 @@ decorate(UserStore, {
   token: observable,
   loadUser: action.bound,
   signIn: action.bound,
+  signOut: action.bound,
 });
 
 export default UserStore;
