@@ -5,25 +5,26 @@ import { authenticate, isAuth, setLocalStorage, getLocalStorage, signout } from 
 
 class UserStore {
   user = null
-  token = null // not used
+  // token = null // not used
 
-  async checkStoreAuth () { // place in Private Route component
+  async loadUser () {
+    console.log('loadUser')
     const token = localStorage.getItem('token');
 
-    if (token && !this.token) {
-      this.token = token
-    }
+    // if (token && !this.token) {
+    //   this.token = token
+    // }
 
     if (token && !this.user) {
       const user = await this.getUser();
       this.user = user
     }
 
-    const authSuccess = !!this.user && !!this.token;
+    // const authSuccess = !!this.user && !!this.token;
 
-    if (!authSuccess) signout();
+    if (!this.user) signout();
 
-    return authSuccess;
+    return this.user;
   }
 
   async signIn(data) {
@@ -78,7 +79,7 @@ class UserStore {
 decorate(UserStore, {
   user: observable,
   token: observable,
-  checkStoreAuth: action.bound,
+  loadUser: action.bound,
   signIn: action.bound,
 });
 

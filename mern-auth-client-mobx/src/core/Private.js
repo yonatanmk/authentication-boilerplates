@@ -21,7 +21,7 @@ const Private = observer(({ userStore: { user }, history }) => {
             setValues({ ...values, role, name, email });
         }
         // eslint-disable-next-line
-    }, []);
+    }, [user]);
 
     const { role, name, email, password, buttonText } = values;
 
