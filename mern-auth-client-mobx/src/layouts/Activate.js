@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { observer, inject } from 'mobx-react';
 import jwt from 'jsonwebtoken';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Layout from './Layout';
 
-const Activate = ({ match }) => {
+const Activate = observer(({ match, userStore: { activateAccounf } }) => {
     const [values, setValues] = useState({
         name: '',
         activateToken: '',
-        show: true
     });
 
     useEffect(() => {
@@ -24,22 +23,18 @@ const Activate = ({ match }) => {
 
     const { name, activateToken } = values;
 
-    const clickSubmit = event => {
+    const clickSubmit = async event => {
         event.preventDefault();
-        axios({
-            method: 'POST',
-            url: `${process.env.REACT_APP_API}/account-activation`,
-            data: { token: activateToken }
-        })
-            .then(response => {
-                console.log('ACCOUNT ACTIVATION', response);
-                setValues({ ...values, show: false });
-                toast.success(response.data.message);
-            })
-            .catch(error => {
-                console.log('ACCOUNT ACTIVATION ERROR', error.response.data.error);
-                toast.error(error.response.data.error);
-            });
+
+        try {
+            const message = await activateAccounf(activateToken)
+            console.log('ACCOUNT ACTIVATION', message);
+            toast.success(message);
+        } catch(err) {
+            const { message } = err;
+            console.log('ACCOUNT ACTIVATION ERROR', message);
+            toast.error(message);
+        }
     };
 
     const activationLink = () => (
@@ -60,6 +55,6 @@ const Activate = ({ match }) => {
             </div>
         </Layout>
     );
-};
+});
 
-export default Activate;
+export default inject('userStore')(Activate);

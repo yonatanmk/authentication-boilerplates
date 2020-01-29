@@ -67,7 +67,7 @@ exports.signup = (req, res) => {
             .then(sent => {
                 // console.log('SIGNUP EMAIL SENT', sent)
                 return res.json({
-                    message: `Email has been sent to ${email}. Follow the instruction to activate your account`
+                    message: `Email has been sent to ${email}. Follow the instructions to activate your account`
                 });
             })
             .catch(err => {
@@ -201,13 +201,11 @@ exports.forgotPassword = (req, res) => {
                 sgMail
                     .send(emailData)
                     .then(sent => {
-                        // console.log('SIGNUP EMAIL SENT', sent)
                         return res.json({
-                            message: `Email has been sent to ${email}. Follow the instruction to activate your account`
+                            message: `Email has been sent to ${email}. Follow the instructions to reset your password`
                         });
                     })
                     .catch(err => {
-                        // console.log('SIGNUP EMAIL SENT ERROR', err)
                         return res.json({
                             message: err.message
                         });

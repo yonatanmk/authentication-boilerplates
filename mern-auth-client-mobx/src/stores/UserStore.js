@@ -28,13 +28,54 @@ class UserStore {
     return this.user;
   }
 
+  async signUp(data) {
+    try {
+      const resp = await request({
+        method: 'POST',
+        url: `${process.env.REACT_APP_API}/signup`,
+        data, // { name, email, password }
+      })
+
+      if (resp && resp.data) {
+        console.log('SIGNUP SUCCESS', resp);
+        return resp.data.message;
+      } else {
+        throw new Error('Something Went Wrong'); // redundant message
+      }
+    } catch (e) {
+      console.error(e)
+      const errorMessage = _.get(e, 'response.data.error') || 'Something Went Wrong';
+      throw new Error(errorMessage);
+    }
+  }
+
+  async activateAccounf(token) {
+    try {
+      const resp = await request({
+        method: 'POST',
+        url: `${process.env.REACT_APP_API}/account-activation`,
+        data: { token },
+      })
+
+      if (resp && resp.data) {
+        console.log('ACCOUNT ACTIVATION', resp);
+        return resp.data.message;
+      } else {
+        throw new Error('Something Went Wrong'); // redundant message
+      }
+    } catch (e) {
+      console.error(e)
+      const errorMessage = _.get(e, 'response.data.error') || 'Something Went Wrong';
+      throw new Error(errorMessage);
+    }
+  }
+
   async signIn(data) {
-    const { email, password } = data;
     try {
       const resp = await request({
         method: 'POST',
         url: `${process.env.REACT_APP_API}/signin`,
-        data: { email, password }
+        data, // { email, password }
       })
 
       const token = _.get(resp, 'data.token');
@@ -87,6 +128,7 @@ decorate(UserStore, {
   user: observable,
   token: observable,
   loadUser: action.bound,
+  signUp: action.bound,
   signIn: action.bound,
   signOut: action.bound,
 });

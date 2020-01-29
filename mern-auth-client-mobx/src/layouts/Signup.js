@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import axios from 'axios';
+import { observer, inject } from 'mobx-react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Layout from './Layout';
@@ -8,7 +8,7 @@ import { authenticate, isAuth } from 'lib/helpers';
 import Google from 'components/Google';
 import Facebook from 'components/Facebook';
 
-const Signup = ({ history }) => {
+const Signup = observer(({ history, userStore: { signUp } }) => {
     const [values, setValues] = useState({
         name: '',
         email: '',
@@ -29,24 +29,21 @@ const Signup = ({ history }) => {
         });
     };
 
-    const clickSubmit = event => {
+    const clickSubmit = async event => {
         event.preventDefault();
         setValues({ ...values, buttonText: 'Submitting' });
-        axios({
-            method: 'POST',
-            url: `${process.env.REACT_APP_API}/signup`,
-            data: { name, email, password }
-        })
-            .then(response => {
-                console.log('SIGNUP SUCCESS', response);
-                setValues({ ...values, name: '', email: '', password: '', buttonText: 'Submitted' });
-                toast.success(response.data.message);
-            })
-            .catch(error => {
-                console.log('SIGNUP ERROR', error.response.data);
-                setValues({ ...values, buttonText: 'Submit' });
-                toast.error(error.response.data.error);
-            });
+
+        try {
+            const message = await signUp({ name, email, password })
+            console.log('SIGNUP SUCCESS', message);
+            setValues({ ...values, name: '', email: '', password: '', buttonText: 'Submitted' });
+            toast.success(message);
+        } catch(err) {
+            const { message } = err;
+            console.log('SIGNUP ERROR', message);
+            setValues({ ...values, buttonText: 'Submit' });
+            toast.error(message);
+        }
     };
 
     const signupForm = () => (
@@ -90,6 +87,6 @@ const Signup = ({ history }) => {
             </div>
         </Layout>
     );
-};
+});
 
-export default Signup;
+export default inject('userStore')(Signup);
