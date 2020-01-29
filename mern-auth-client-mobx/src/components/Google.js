@@ -1,22 +1,15 @@
 import React from 'react';
+import { observer, inject } from 'mobx-react';
 import GoogleLogin from 'react-google-login';
-import axios from 'axios';
 
-const Google = ({ text, informParent = f => f }) => {
-    const responseGoogle = response => {
-        axios({
-            method: 'POST',
-            url: `${process.env.REACT_APP_API}/google-login`,
-            data: { idToken: response.tokenId }
-        })
-            .then(response => {
-                console.log('GOOGLE SIGNIN SUCCESS', response);
-                // inform parent component
-                informParent(response);
-            })
-            .catch(error => {
-                console.log('GOOGLE SIGNIN ERROR', error.response);
-            });
+const Google = observer(({ text, informParent = f => f, userStore: { googleAuth } }) => {
+    const responseGoogle = async response => {
+        try {
+            const user = await googleAuth(response);
+            informParent(user);
+        } catch(e) {
+            console.error('GOOGLE SIGNIN ERROR');
+        }
     };
     
     return (
@@ -38,6 +31,6 @@ const Google = ({ text, informParent = f => f }) => {
             />
         </div>
     );
-};
+});
 
-export default Google;
+export default inject('userStore')(Google);

@@ -22,10 +22,8 @@ const Signin = observer(({ history, userStore: { user, signIn } }) => {
         setValues({ ...values, [name]: event.target.value });
     };
 
-    const informParent = response => {
-        authenticate(response, () => {
-            isAuth() && isAuth().role === 'admin' ? history.push('/admin') : history.push('/private'); // FIX
-        });
+    const informParent = user => {
+        user.role === 'admin' ? history.push('/admin') : history.push('/private');
     };
 
     const clickSubmit = async event => {
