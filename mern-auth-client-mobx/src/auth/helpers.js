@@ -67,19 +67,6 @@ export const isAuth = () => {
     }
 };
 
-// export const isAuth = () => {
-//     if (window !== 'undefined') {
-//         const cookieChecked = getCookie('token');
-//         if (cookieChecked) {
-//             if (localStorage.getItem('user')) {
-//                 return JSON.parse(localStorage.getItem('user'));
-//             } else {
-//                 return false;
-//             }
-//         }
-//     }
-// };
-
 export const signout = next => {
     removeLocalStorage('token');
     if (next) next();
@@ -87,10 +74,10 @@ export const signout = next => {
 
 export const updateUser = (response, next) => {
     console.log('UPDATE USER IN LOCALSTORAGE HELPERS', response);
-    if (typeof window !== 'undefined') {
-        let auth = JSON.parse(localStorage.getItem('user'));
-        auth = response.data;
-        localStorage.setItem('user', JSON.stringify(auth));
-    }
+    // if (typeof window !== 'undefined') {
+    //     let auth = JSON.parse(localStorage.getItem('user'));
+    //     auth = response.data;
+    //     localStorage.setItem('user', JSON.stringify(auth));
+    // }
     next();
 };

@@ -1,8 +1,10 @@
 import React, { Fragment } from 'react';
+import { observer, inject } from 'mobx-react';
 import { Link, withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
 import { isAuth, signout } from 'auth/helpers';
 
-const Layout = ({ children, match, history }) => {
+const Layout = observer(({ children, match, history, userStore, userStore: { user } }) => {
     const isActive = path => {
         if (match.path === path) {
             return { color: '#000' };
@@ -34,18 +36,18 @@ const Layout = ({ children, match, history }) => {
                 </Fragment>
             )}
 
-            {isAuth() && isAuth().role === 'admin' && (
+            {isAuth() && user && user.role === 'admin' && (
                 <li className="nav-item">
                     <Link className="nav-link" style={isActive('/admin')} to="/admin">
-                        {isAuth().name}
+                        {user.name}
                     </Link>
                 </li>
             )}
 
-            {isAuth() && isAuth().role === 'subscriber' && (
+            {isAuth() && user && user.role === 'subscriber' && (
                 <li className="nav-item">
                     <Link className="nav-link" style={isActive('/private')} to="/private">
-                        {isAuth().name}
+                        {user.name}
                     </Link>
                 </li>
             )}
@@ -74,6 +76,9 @@ const Layout = ({ children, match, history }) => {
             <div className="container">{children}</div>
         </Fragment>
     );
-};
+});
 
-export default withRouter(Layout);
+export default compose(
+    inject('userStore'),
+    withRouter,
+  )(Layout)

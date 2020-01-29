@@ -8,7 +8,6 @@ class UserStore {
   // token = null // not used
 
   async loadUser () {
-    console.log('loadUser')
     const token = localStorage.getItem('token');
 
     // if (token && !this.token) {
@@ -16,7 +15,9 @@ class UserStore {
     // }
 
     if (token && !this.user) {
+      
       const user = await this.getUser();
+      console.log('USER LOADED')
       this.user = user
     }
 
@@ -63,6 +64,7 @@ class UserStore {
       })
 
       if (resp && resp.data) {
+        console.log('GET USER SUCCESS', resp);
         this.user = resp.data
         return resp.data;
       } else {

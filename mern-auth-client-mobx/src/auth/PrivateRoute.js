@@ -4,7 +4,13 @@ import { Route, Redirect } from 'react-router-dom';
 import { isAuth } from './helpers';
 
 const PrivateRoute = observer(({ component: Component, userStore: { loadUser }, ...rest }) => {
-    useEffect(loadUser, []) // populate user in user store if there's a token
+    useEffect(() => {
+        const loadUserFunc = async () => {
+            await loadUser()
+        }
+        loadUserFunc()
+        return 
+    }, [loadUser]) // populate user in user store if there's a token
 
     return (
         <Route
