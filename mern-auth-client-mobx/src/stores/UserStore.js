@@ -124,6 +124,33 @@ class UserStore {
     }
   }
 
+  async facebookAuth(fbResponse) {
+    try {
+      const resp = await request({
+        method: 'POST',
+        url: `${process.env.REACT_APP_API}/facebook-login`,
+        data: { userID: fbResponse.userID, accessToken: fbResponse.accessToken }
+      })
+
+      const token = _.get(resp, 'data.token');
+      const user = _.get(resp, 'data.user');
+
+      if (token && user) {
+        console.log('SIGNIN SUCCESS', resp);
+        setLocalStorage('token', token);
+        this.token = token;
+        this.user = user;
+        return user;
+      } else {
+        throw new Error('Something Went Wrong'); // redundant message
+      }
+    } catch (e) {
+      console.error(e)
+      const errorMessage = _.get(e, 'response.data.error') || 'Something Went Wrong';
+      throw new Error(errorMessage);
+    }
+  }
+
   signOut(cb) {
     this.user = null;
     signout(cb)
@@ -158,6 +185,7 @@ decorate(UserStore, {
   signUp: action.bound,
   signIn: action.bound,
   googleAuth: action.bound,
+  facebookAuth: action.bound,
   signOut: action.bound,
 });
 

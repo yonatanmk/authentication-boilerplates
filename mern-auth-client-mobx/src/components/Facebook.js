@@ -1,24 +1,16 @@
 import React from 'react';
+import { observer, inject } from 'mobx-react';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'; // special import for styling facebook button
 // import FacebookLogin from 'react-facebook-login'; import for default facebook sign in button styles
-import axios from 'axios';
 
-const Facebook = ({ text, informParent = f => f }) => {
-    const responseFacebook = response => {
-        console.log(response);
-        axios({
-            method: 'POST',
-            url: `${process.env.REACT_APP_API}/facebook-login`,
-            data: { userID: response.userID, accessToken: response.accessToken }
-        })
-            .then(response => {
-                console.log('FACEBOOK SIGNIN SUCCESS', response);
-                // inform parent component
-                informParent(response);
-            })
-            .catch(error => {
-                console.log('FACEBOOK SIGNIN ERROR', error.response);
-            });
+const Facebook = observer(({ text, informParent = f => f, userStore: { facebookAuth } }) => {
+    const responseFacebook = async response => {
+        try {
+            const user = await facebookAuth(response);
+            informParent(user);
+        } catch(e) {
+            console.error('GOOGLE SIGNIN ERROR');
+        }
     };
 
     // facebook component causing componentWillReceiveProps has been renamed error
@@ -36,6 +28,6 @@ const Facebook = ({ text, informParent = f => f }) => {
             />
         </div>
     );
-};
+});
 
-export default Facebook;
+export default inject('userStore')(Facebook);
