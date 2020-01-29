@@ -4,15 +4,15 @@ import { Provider } from 'mobx-react';
 import stores from 'stores';
 import LandingPage from 'layouts/LandingPage';
 import Home from 'layouts/Home';
-import Signup from 'auth/Signup';
-import Signin from 'auth/Signin';
-import Activate from 'auth/Activate';
-import Private from 'core/Private';
-import Admin from 'core/Admin';
-import PrivateRoute from 'auth/PrivateRoute';
-import AdminRoute from 'auth/AdminRoute';
-import Forgot from 'auth/Forgot';
-import Reset from 'auth/Reset';
+import Signup from 'layouts/Signup';
+import Signin from 'layouts/Signin';
+import Activate from 'layouts/Activate';
+import Private from 'layouts/Private';
+import Admin from 'layouts/Admin';
+import PrivateRoute from './PrivateRoute';
+import AdminRoute from './AdminRoute';
+import Forgot from 'layouts/Forgot';
+import Reset from 'layouts/Reset';
 
 const Routes = () => {
     return (

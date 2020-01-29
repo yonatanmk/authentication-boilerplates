@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { hydrate, render } from 'react-dom';
-import Routes from 'Routes';
+import Routes from 'routes';
 
 const rootElement = document.getElementById('root');
 if (rootElement.hasChildNodes()) {

@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { observer, inject } from 'mobx-react';
 import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
-import { isAuth, signout } from 'auth/helpers';
+import { isAuth, signout } from 'lib/helpers';
 
 const Layout = observer(({ children, match, history, userStore, userStore: { user } }) => {
     const isActive = path => {

@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { observable, action, decorate, computed } from "mobx";
 import request from 'lib/request'
-import { authenticate, isAuth, setLocalStorage, getLocalStorage, signout } from 'auth/helpers';
+import { authenticate, isAuth, setLocalStorage, getLocalStorage, signout } from 'lib/helpers';
 
 class UserStore {
   user = null

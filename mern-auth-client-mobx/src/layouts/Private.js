@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { observer, inject } from 'mobx-react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import Layout from 'core/Layout';
-import { updateUser } from 'auth/helpers';
+import Layout from './Layout';
+import { updateUser } from 'lib/helpers';
 import request from 'lib/request';
 
 const Private = observer(({ userStore: { user }, history }) => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
-import Layout from 'core/Layout';
+import Layout from './Layout';
 
 const LandingPage = observer(class App extends Component {
     constructor (props) {

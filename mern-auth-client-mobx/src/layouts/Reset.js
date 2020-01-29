@@ -3,7 +3,7 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import Layout from 'core/Layout';
+import Layout from './Layout';
 
 const Reset = ({ history, match }) => {
     // props.match from react router dom
