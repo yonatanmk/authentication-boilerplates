@@ -15,23 +15,23 @@ import Forgot from 'layouts/Forgot';
 import Reset from 'layouts/Reset';
 
 const Routes = () => {
-    return (
-        <Provider {...stores}>
-            <BrowserRouter>
-                <Switch>
-                    <Route path="/" exact component={LandingPage} />
-                    <PrivateRoute path="/home" exact component={Home} />
-                    <Route path="/signup" exact component={Signup} />
-                    <Route path="/signin" exact component={Signin} />
-                    <Route path="/auth/activate/:activateToken" exact component={Activate} />
-                    <PrivateRoute path="/private" exact component={Private} />
-                    <AdminRoute path="/admin" exact component={Admin} />
-                    <Route path="/auth/password/forgot" exact component={Forgot} />
-                    <Route path="/auth/password/reset/:resetPasswordToken" exact component={Reset} />
-                </Switch>
-            </BrowserRouter>
-        </Provider>
-    );
+  return (
+    <Provider {...stores}>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/" exact component={LandingPage} />
+          <PrivateRoute path="/home" exact component={Home} />
+          <Route path="/signup" exact component={Signup} />
+          <Route path="/signin" exact component={Signin} />
+          <Route path="/auth/activate/:activateToken" exact component={Activate} />
+          <PrivateRoute path="/private" exact component={Private} />
+          <AdminRoute path="/admin" exact component={Admin} />
+          <Route path="/auth/password/forgot" exact component={Forgot} />
+          <Route path="/auth/password/reset/:resetPasswordToken" exact component={Reset} />
+        </Switch>
+      </BrowserRouter>
+    </Provider>
+  );
 };
 
 export default Routes;

@@ -10,7 +10,7 @@ import Routes from './Routes';
 
 const rootElement = document.getElementById('root');
 if (rootElement.hasChildNodes()) {
-    hydrate(<Routes />, rootElement);
+  hydrate(<Routes />, rootElement);
 } else {
-    render(<Routes />, rootElement);
+  render(<Routes />, rootElement);
 }

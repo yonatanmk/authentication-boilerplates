@@ -3,21 +3,21 @@ const router = express.Router();
 
 // import controller
 const {
-    signup,
-    accountActivation,
-    signin,
-    forgotPassword,
-    resetPassword,
-    googleLogin,
-    facebookLogin
+  signup,
+  accountActivation,
+  signin,
+  forgotPassword,
+  resetPassword,
+  googleLogin,
+  facebookLogin
 } = require('../controllers/auth');
 
 // import validators
 const {
-    userSignupValidator,
-    userSigninValidator,
-    forgotPasswordValidator,
-    resetPasswordValidator
+  userSignupValidator,
+  userSigninValidator,
+  forgotPasswordValidator,
+  resetPasswordValidator
 } = require('../validators/auth');
 const { runValidation } = require('../validators');
 
