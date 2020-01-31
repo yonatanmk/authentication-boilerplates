@@ -20,7 +20,7 @@ const Routes = () => {
     <Provider {...stores}>
       <BrowserRouter>
         <Switch>
-          <Route path="/" exact component={LandingPage} />
+          <AuthRoute path="/" exact component={LandingPage} />
           <PrivateRoute path="/home" exact component={Home} />
           <AuthRoute path="/signup" exact component={Signup} />
           <AuthRoute path="/signin" exact component={Signin} />
