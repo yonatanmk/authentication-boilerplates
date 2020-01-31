@@ -1,44 +1,37 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { observer, inject } from 'mobx-react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Layout from './Layout';
 
-const Forgot = ({ history }) => {
+const Forgot = observer(({ userStore: { forgotPassword }, history }) => {
   const [values, setValues] = useState({
     email: '',
     buttonText: 'Request password reset link',
     success: false,
   });
 
-  const { email, buttonText } = values;
+  const { email, buttonText, success } = values;
 
   const handleChange = name => event => {
-    // console.log(event.target.value);
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const clickSubmit = event => {
+  const clickSubmit = async event => {
     event.preventDefault();
-    if (values.success) {
+    if (success) {
       history.push('/signin')
     } else {
       setValues({ ...values, buttonText: 'Submitting' });
-      axios({
-        method: 'PUT',
-        url: `${process.env.REACT_APP_API}/forgot-password`,
-        data: { email }
-      })
-        .then(response => {
-          console.log('FORGOT PASSWORD SUCCESS', response);
-          toast.success(response.data.message);
-          setValues({ ...values, buttonText: 'Requested', success: true });
-        })
-        .catch(error => {
-          console.log('FORGOT PASSWORD ERROR', error.response.data);
-          toast.error(error.response.data.error);
-          setValues({ ...values, buttonText: 'Request password reset link' });
-        });
+      try {
+        const message = await forgotPassword(email)
+        toast.success(message);
+        setValues({ ...values, buttonText: 'Requested', success: true });
+      } catch(err) {
+        const { message } = err;
+        toast.error(message);
+        setValues({ ...values, buttonText: 'Request password reset link' });
+      }
     }
   };
 
@@ -66,6 +59,6 @@ const Forgot = ({ history }) => {
       </div>
     </Layout>
   );
-};
+});
 
-export default Forgot;
+export default inject('userStore')(Forgot);
