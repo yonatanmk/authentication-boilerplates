@@ -218,6 +218,28 @@ class UserStore {
       throw new Error(errorMessage);
     }
   }
+
+  async updateUser(data) {
+    try {
+      const resp = await request({
+        method: 'PUT',
+        url: `${process.env.REACT_APP_API}/user/update`,
+        data,
+      })
+
+      if (resp && resp.data) {
+        console.log('UPDATE USER SUCCESS', resp);
+        this.user = resp.data
+        return resp.data;
+      } else {
+        throw new Error('Something Went Wrong'); // redundant message
+      }
+    } catch (e) {
+      console.error(e)
+      const errorMessage = _.get(e, 'response.data.error') || 'Something Went Wrong';
+      throw new Error(errorMessage);
+    }
+  }
 }
 
 decorate(UserStore, {
@@ -231,6 +253,7 @@ decorate(UserStore, {
   signOut: action.bound,
   forgotPassword: action.bound,
   resetPassword: action.bound,
+  updateUser: action.bound,
 });
 
 export default UserStore;

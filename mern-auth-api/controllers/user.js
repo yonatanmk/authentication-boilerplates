@@ -53,6 +53,7 @@ exports.update = (req, res) => {
       }
       updatedUser.hashed_password = undefined;
       updatedUser.salt = undefined;
+      updatedUser.resetPasswordLink = undefined;
       res.json(updatedUser);
     });
   });
