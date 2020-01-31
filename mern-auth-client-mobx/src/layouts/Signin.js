@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { observer, inject } from 'mobx-react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Layout from './Layout';
-import { isAuth } from 'lib/auth-utils';
 import Google from 'components/Google';
 import Facebook from 'components/Facebook';
 
@@ -18,7 +17,6 @@ const Signin = observer(({ history, userStore: { signIn } }) => {
   const { email, password, buttonText } = values;
 
   const handleChange = name => event => {
-    // console.log(event.target.value);
     setValues({ ...values, [name]: event.target.value });
   };
 
@@ -35,7 +33,7 @@ const Signin = observer(({ history, userStore: { signIn } }) => {
       
       if (user) {
         setValues({ ...values, name: '', email: '', password: '', buttonText: 'Submitted' });
-        isAuth() && user.role === 'admin' ? history.push('/admin') : history.push('/profile');
+        user.role === 'admin' ? history.push('/admin') : history.push('/profile');
       }
     } catch(err) {
       const { message } = err;

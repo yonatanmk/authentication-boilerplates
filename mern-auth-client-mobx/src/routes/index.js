@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch } from 'react-router-dom';
 import { Provider } from 'mobx-react';
 import stores from 'stores';
 import LandingPage from 'layouts/LandingPage';
