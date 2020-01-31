@@ -6,7 +6,7 @@ import Layout from './Layout';
 import { updateUser } from 'lib/helpers';
 import request from 'lib/request';
 
-const Private = observer(({ userStore: { user }, history }) => {
+const Profile = observer(({ userStore: { user }, history }) => {
   const [values, setValues] = useState({
     role: '',
     name: '',
@@ -93,4 +93,4 @@ const Private = observer(({ userStore: { user }, history }) => {
   );
 });
 
-export default inject('userStore')(Private);
+export default inject('userStore')(Profile);

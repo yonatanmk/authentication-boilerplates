@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Layout from './Layout';
 
-const Reset = observer(({ userStore: { resetPassword }, history, match }) => {
+const ResetPassword = observer(({ userStore: { resetPassword }, history, match }) => {
   const [values, setValues] = useState({
     name: '',
     resetPasswordToken: '',
@@ -82,4 +82,4 @@ const Reset = observer(({ userStore: { resetPassword }, history, match }) => {
   );
 });
 
-export default inject('userStore')(Reset);
+export default inject('userStore')(ResetPassword);

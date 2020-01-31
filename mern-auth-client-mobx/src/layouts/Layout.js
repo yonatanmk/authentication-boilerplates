@@ -56,7 +56,7 @@ const Layout = observer(({ children, match, history, userStore, userStore: { use
 
       {isAuth() && user && user.role === 'subscriber' && (
         <li className="nav-item">
-          <Link className="nav-link" style={isActive('/private')} to="/private">
+          <Link className="nav-link" style={isActive('/profile')} to="/profile">
             {user.name}
           </Link>
         </li>

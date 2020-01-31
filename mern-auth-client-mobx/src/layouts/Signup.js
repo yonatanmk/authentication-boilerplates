@@ -24,7 +24,7 @@ const Signup = observer(({ history, userStore: { signUp } }) => {
   };
 
   const informParent = user => {
-    user.role === 'admin' ? history.push('/admin') : history.push('/private');
+    user.role === 'admin' ? history.push('/admin') : history.push('/profile');
   };
 
   const clickSubmit = async event => {

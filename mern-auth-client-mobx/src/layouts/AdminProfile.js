@@ -6,7 +6,7 @@ import Layout from './Layout';
 import { getCookie, signout, updateUser } from 'lib/helpers';
 
 
-const Admin = ({ history }) => {
+const AdminProfile = ({ history }) => {
   const [values, setValues] = useState({
     role: '',
     name: '',
@@ -118,4 +118,4 @@ const Admin = ({ history }) => {
   );
 };
 
-export default Admin;
+export default AdminProfile;

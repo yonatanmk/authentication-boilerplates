@@ -23,7 +23,7 @@ const Signin = observer(({ history, userStore: { user, signIn } }) => {
   };
 
   const informParent = user => {
-    user.role === 'admin' ? history.push('/admin') : history.push('/private');
+    user.role === 'admin' ? history.push('/admin') : history.push('/profile');
   };
 
   const clickSubmit = async event => {
@@ -35,7 +35,7 @@ const Signin = observer(({ history, userStore: { user, signIn } }) => {
       
       if (user) {
         setValues({ ...values, name: '', email: '', password: '', buttonText: 'Submitted' });
-        isAuth() && user.role === 'admin' ? history.push('/admin') : history.push('/private');
+        isAuth() && user.role === 'admin' ? history.push('/admin') : history.push('/profile');
       }
     } catch(err) {
       const { message } = err;
