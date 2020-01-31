@@ -223,7 +223,7 @@ class UserStore {
     try {
       const resp = await request({
         method: 'PUT',
-        url: `${process.env.REACT_APP_API}/user/update`,
+        url: `${process.env.REACT_APP_API}/${data.admin ? 'admin' : 'user'}/update`,
         data,
       })
 

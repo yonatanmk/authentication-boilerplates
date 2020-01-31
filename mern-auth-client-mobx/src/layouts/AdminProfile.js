@@ -3,10 +3,10 @@ import { observer, inject } from 'mobx-react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Layout from './Layout';
-import { updateUser } from 'lib/helpers';
-import request from 'lib/request';
+// import { updateUser } from 'lib/helpers';
+// import request from 'lib/request';
 
-const AdminProfile = observer(({ userStore: { user }, history }) => {
+const AdminProfile = observer(({ userStore: { user, updateUser }, history }) => {
   const [values, setValues] = useState({
     role: '',
     name: '',
@@ -29,26 +29,21 @@ const AdminProfile = observer(({ userStore: { user }, history }) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const clickSubmit = event => {
+  const clickSubmit = async event => {
     event.preventDefault();
     setValues({ ...values, buttonText: 'Submitting' });
-    request({
-      method: 'PUT',
-      url: `${process.env.REACT_APP_API}/admin/update`,
-      data: { name, password }
-    })
-      .then(response => {
-        console.log('PRIVATE PROFILE UPDATE SUCCESS', response);
-        updateUser(response, () => {
-          setValues({ ...values, buttonText: 'Submitted' });
-          toast.success('Profile updated successfully');
-        });
-      })
-      .catch(error => {
-        console.log('PRIVATE PROFILE UPDATE ERROR', error.response.data.error);
-        setValues({ ...values, buttonText: 'Submit' });
-        toast.error(error.response.data.error);
-      });
+    try {
+      const user = await updateUser({ name, email, password, admin: true })
+      if (user) {
+        setValues({ ...values, buttonText: 'Submitted' });
+        toast.success('Admin Profile updated successfully');
+      }
+    } catch(err) {
+      const { message } = err;
+      console.log('UPDATE PROFILE ERROR', message);
+      setValues({ ...values, buttonText: 'Submit' });
+      toast.error(message);
+    }
   };
 
   const updateForm = () => (
