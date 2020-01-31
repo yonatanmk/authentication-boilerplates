@@ -30,13 +30,13 @@
 export const setLocalStorage = (key, value) => {
   const isObject = typeof value === 'object' && value !== null
   if (window !== 'undefined') {
-    localStorage.setItem(key, isObject ? JSON.stringify(value) : value);
+    return localStorage.setItem(key, isObject ? JSON.stringify(value) : value);
   }
 };
 
 export const getLocalStorage = (key) => {
   if (window !== 'undefined') {
-    localStorage.getItem(key)
+    return localStorage.getItem(key)
   } else {
     return null
   }
@@ -45,7 +45,7 @@ export const getLocalStorage = (key) => {
 // remove from localstorage
 export const removeLocalStorage = key => {
   if (window !== 'undefined') {
-    localStorage.removeItem(key);
+    return localStorage.removeItem(key);
   }
 };
 

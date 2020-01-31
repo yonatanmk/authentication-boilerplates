@@ -11,6 +11,7 @@ import Profile from 'layouts/Profile';
 import AdminProfile from 'layouts/AdminProfile';
 import PrivateRoute from './PrivateRoute';
 import AdminRoute from './AdminRoute';
+import AuthRoute from './AuthRoute';
 import Forgot from 'layouts/Forgot';
 import ResetPassword from 'layouts/ResetPassword';
 
@@ -21,13 +22,13 @@ const Routes = () => {
         <Switch>
           <Route path="/" exact component={LandingPage} />
           <PrivateRoute path="/home" exact component={Home} />
-          <Route path="/signup" exact component={Signup} />
-          <Route path="/signin" exact component={Signin} />
-          <Route path="/auth/activate/:activateToken" exact component={Activate} />
+          <AuthRoute path="/signup" exact component={Signup} />
+          <AuthRoute path="/signin" exact component={Signin} />
+          <AuthRoute path="/auth/activate/:activateToken" exact component={Activate} />
           <PrivateRoute path="/profile" exact component={Profile} />
           <AdminRoute path="/admin" exact component={AdminProfile} />
-          <Route path="/auth/password/forgot" exact component={Forgot} />
-          <Route path="/auth/password/reset/:resetPasswordToken" exact component={ResetPassword} />
+          <AuthRoute path="/auth/password/forgot" exact component={Forgot} />
+          <AuthRoute path="/auth/password/reset/:resetPasswordToken" exact component={ResetPassword} />
         </Switch>
       </BrowserRouter>
     </Provider>

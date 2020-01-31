@@ -15,15 +15,16 @@ class UserStore {
     // }
 
     if (token && !this.user) {
-      
-      const user = await this.getUser();
-      console.log('USER LOADED')
-      this.user = user
+      try {
+        const user = await this.getUser();
+        this.user = user
+      } catch (e) {
+        console.error(e)
+        signout()
+      }
     }
 
     // const authSuccess = !!this.user && !!this.token;
-
-    if (!this.user) signout();
 
     return this.user;
   }

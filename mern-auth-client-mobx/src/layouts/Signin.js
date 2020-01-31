@@ -69,7 +69,6 @@ const Signin = observer(({ history, userStore: { signIn } }) => {
     <Layout>
       <div className="col-md-6 offset-md-3">
         <ToastContainer />
-        {isAuth() ? <Redirect to="/home" /> : null}
         <h1 className="p-5 text-center">Sign In</h1>
         <Google text="Login with Google" informParent={informParent} />
         <Facebook text="Login with Facebook" informParent={informParent} />
