@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { observer, inject } from 'mobx-react';
 import { Route, Redirect } from 'react-router-dom';
-import { isAuth } from 'lib/helpers';
+import { isAuth } from 'lib/auth-utils';
 import Layout from 'layouts/Layout'
 
 const AdminRoute = observer(({ component: Component, userStore: { loadUser }, ...rest }) => {

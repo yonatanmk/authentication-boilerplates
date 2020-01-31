@@ -4,7 +4,7 @@ import { observer, inject } from 'mobx-react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Layout from './Layout';
-import { isAuth } from 'lib/helpers';
+import { isAuth } from 'lib/auth-utils';
 import Google from 'components/Google';
 import Facebook from 'components/Facebook';
 
@@ -73,7 +73,7 @@ const Signup = observer(({ history, userStore: { signUp } }) => {
     <Layout>
       <div className="col-md-6 offset-md-3">
         <ToastContainer />
-        {isAuth() ? <Redirect to="/" /> : null}
+        {isAuth() ? <Redirect to="/home" /> : null}
         <h1 className="p-5 text-center">Sign Up</h1>
         <Google text="Sign Up with Google" informParent={informParent} />
         <Facebook text="Sign Up with Facebook" informParent={informParent} />

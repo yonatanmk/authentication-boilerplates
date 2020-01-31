@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { observer, inject } from 'mobx-react';
 import { Route, Redirect } from 'react-router-dom';
-import { isAuth } from 'lib/helpers';
+import { isAuth } from 'lib/auth-utils';
 
 const PrivateRoute = observer(({ component: Component, userStore: { loadUser }, ...rest }) => {
   useEffect(() => {

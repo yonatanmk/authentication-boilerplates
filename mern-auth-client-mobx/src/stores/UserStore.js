@@ -1,14 +1,14 @@
 import _ from 'lodash'
 import { observable, action, decorate } from "mobx";
 import request from 'lib/request'
-import { setLocalStorage, signout } from 'lib/helpers';
+import { getLocalStorage, setLocalStorage, signout } from 'lib/auth-utils';
 
 class UserStore {
   user = null
   // token = null // not used
 
   async loadUser () {
-    const token = localStorage.getItem('token');
+    const token = getLocalStorage('token');
 
     // if (token && !this.token) {
     //   this.token = token

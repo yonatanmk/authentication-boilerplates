@@ -3,8 +3,6 @@ import { observer, inject } from 'mobx-react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Layout from './Layout';
-// import { updateUser } from 'lib/helpers';
-// import request from 'lib/request';
 
 const AdminProfile = observer(({ userStore: { user, updateUser }, history }) => {
   const [values, setValues] = useState({
