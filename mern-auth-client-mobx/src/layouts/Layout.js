@@ -13,6 +13,8 @@ const Layout = observer(({ children, match, history, userStore, userStore: { use
     }
   };
 
+  // console.log({ user })
+
   const nav = () => (
     <ul className="nav nav-tabs bg-primary">
       {!isAuth() && (

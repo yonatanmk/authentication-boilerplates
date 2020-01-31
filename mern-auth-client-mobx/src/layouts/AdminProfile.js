@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { observer, inject } from 'mobx-react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Layout from './Layout';
-import { getCookie, signout, updateUser } from 'lib/helpers';
+import { updateUser } from 'lib/helpers';
+import request from 'lib/request';
 
-
-const AdminProfile = ({ history }) => {
+const AdminProfile = observer(({ userStore: { user }, history }) => {
   const [values, setValues] = useState({
     role: '',
     name: '',
@@ -15,35 +15,43 @@ const AdminProfile = ({ history }) => {
     buttonText: 'Submit'
   });
 
-  const token = getCookie('token');
+  // const token = getCookie('token');
+
+  // useEffect(() => {
+  //   loadProfile();
+  //   // eslint-disable-next-line
+  // }, []);
 
   useEffect(() => {
-    loadProfile();
+    if (user) {
+      const { role, name, email } = user;
+      setValues({ ...values, role, name, email });
+    }
     // eslint-disable-next-line
-  }, []);
+  }, [user]);
 
-  const loadProfile = () => {
-    axios({
-      method: 'GET',
-      url: `${process.env.REACT_APP_API}/user`,
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .then(response => {
-        console.log('PRIVATE PROFILE UPDATE', response);
-        const { role, name, email } = response.data;
-        setValues({ ...values, role, name, email });
-      })
-      .catch(error => {
-        console.log('PRIVATE PROFILE UPDATE ERROR', error.response.data.error);
-        if (error.response.status === 401) {
-          signout(() => {
-            history.push('/');
-          });
-        }
-      });
-  };
+  // const loadProfile = () => {
+  //   axios({
+  //     method: 'GET',
+  //     url: `${process.env.REACT_APP_API}/user`,
+  //     headers: {
+  //       Authorization: `Bearer ${token}`
+  //     }
+  //   })
+  //     .then(response => {
+  //       console.log('PRIVATE PROFILE UPDATE', response);
+  //       const { role, name, email } = response.data;
+  //       setValues({ ...values, role, name, email });
+  //     })
+  //     .catch(error => {
+  //       console.log('PRIVATE PROFILE UPDATE ERROR', error.response.data.error);
+  //       if (error.response.status === 401) {
+  //         signout(() => {
+  //           history.push('/');
+  //         });
+  //       }
+  //     });
+  // };
 
   const { role, name, email, password, buttonText } = values;
 
@@ -52,15 +60,37 @@ const AdminProfile = ({ history }) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
+  // const clickSubmit = event => {
+  //   event.preventDefault();
+  //   setValues({ ...values, buttonText: 'Submitting' });
+  //   axios({
+  //     method: 'PUT',
+  //     url: `${process.env.REACT_APP_API}/admin/update`,
+  //     headers: {
+  //       Authorization: `Bearer ${token}`
+  //     },
+  //     data: { name, password }
+  //   })
+  //     .then(response => {
+  //       console.log('PRIVATE PROFILE UPDATE SUCCESS', response);
+  //       updateUser(response, () => {
+  //         setValues({ ...values, buttonText: 'Submitted' });
+  //         toast.success('Profile updated successfully');
+  //       });
+  //     })
+  //     .catch(error => {
+  //       console.log('PRIVATE PROFILE UPDATE ERROR', error.response.data.error);
+  //       setValues({ ...values, buttonText: 'Submit' });
+  //       toast.error(error.response.data.error);
+  //     });
+  // };
+
   const clickSubmit = event => {
     event.preventDefault();
     setValues({ ...values, buttonText: 'Submitting' });
-    axios({
+    request({
       method: 'PUT',
       url: `${process.env.REACT_APP_API}/admin/update`,
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
       data: { name, password }
     })
       .then(response => {
@@ -116,6 +146,6 @@ const AdminProfile = ({ history }) => {
       </div>
     </Layout>
   );
-};
+});
 
-export default AdminProfile;
+export default inject('userStore')(AdminProfile);
